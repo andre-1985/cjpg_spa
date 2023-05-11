@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CJPG - Grille Euromillions{% endblock %}
+
+{% block body %}
+    <main class="flex flex-wrap justify-center p-6">
+        <section id="grid_euromillions_section">
+            {{ component('grid_euromillions') }}
+        </section>
+    </main>
+{% endblock %}
