@@ -22,3 +22,5 @@ import {
 } from "tw-elements";
 
 initTE({ Collapse, Dropdown, Ripple, Tab });
+
+import './js/euromillion_grid_limit.js'

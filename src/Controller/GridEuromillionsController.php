@@ -10,12 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\UX\Turbo\TurboBundle;
 
 class GridEuromillionsController extends AbstractController
 {
+    private PaginatorInterface $paginator;
+
+    public function __construct(PaginatorInterface $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
     #[Route('/Euromillions/Grille', name: 'app_grid_euromillions')]
-    public function index(PaginatorInterface $paginator, Request $request, DrawEuromillionsRepository $repository): Response
+    public function index(Request $request, DrawEuromillionsRepository $repository): Response
     {
         $selectionEuromillions = new UserSelectionEuromillions();
 
@@ -24,6 +30,7 @@ class GridEuromillionsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userSelection = $form->getData();
             $userSelectionRequest = $repository->findDrawsByUserSelection($userSelection->ballsSelectionEuromillions, $userSelection->starsSelection);
+            $userSelectionResults = [];
 
             foreach ($userSelectionRequest as $userSelectionRq) {
                 $userResultsDrawId = 'draw_' . $userSelectionRq->getId();
@@ -36,78 +43,86 @@ class GridEuromillionsController extends AbstractController
                 $userCommonStarsArray = array_intersect($userSelection->starsSelection, $starsRq);
 
                 if (!empty($userCommonBallsArray) && !empty($userCommonStarsArray)) {
-                    $userResultsDrawId = [
-                        'userCommonBallsArray' => $userCommonBallsArray,
-                        'userCommonStarsArray' => $userCommonStarsArray,
-                        'completeDraw' => $userSelectionRq,
-                    ];
-                    $countCommonBallsArray = count($userResultsDrawId['userCommonBallsArray']);
-                    $countCommonStarsArray = count($userResultsDrawId['userCommonStarsArray']);
+                    $countCommonBallsArray = count($userCommonBallsArray);
+                    $countCommonStarsArray = count($userCommonStarsArray);
                     $categoryName = 'balls_' . $countCommonBallsArray . '_' . $countCommonStarsArray;
 
                 } elseif (empty($userCommonBallsArray) && !empty($userCommonStarsArray)) {
-                    $userResultsDrawId = [
-                        'userCommonStarsArray' => $userCommonStarsArray,
-                        'completeDraw' => $userSelectionRq,
-                    ];
-                    $countCommonStarsArray = count($userResultsDrawId['userCommonStarsArray']);
+                    $countCommonStarsArray = count($userCommonStarsArray);
                     $categoryName = '_stars_' . $countCommonStarsArray;
 
                 } else {
-                    $userResultsDrawId = [
-                        'userCommonBallsArray' => $userCommonBallsArray,
-                        'completeDraw' => $userSelectionRq,
-                    ];
-                    $countCommonBallsArray = count($userResultsDrawId['userCommonBallsArray']);
+                    $countCommonBallsArray = count($userCommonBallsArray);
                     $categoryName = 'balls_' . $countCommonBallsArray;
                 }
-                $userSelectionResults[$categoryName][$drawId] = $userResultsDrawId;
+                $userSelectionResults[$categoryName][$drawId] = [
+                    'userCommonBallsArray' => $userCommonBallsArray,
+                    'userCommonStarsArray' => $userCommonStarsArray,
+                    'drawId' => $userSelectionRq->getId(),
+                ];
             }
 
             krsort($userSelectionResults);
-            $userSelectionResultsPagination = [];
 
-            foreach ($userSelectionResults as $key => $results) {
-                if (count($results) > 20) {
-                    $resultsPagination = $paginator->paginate(
-                        $results,
-                        $request->query->getInt('page', 1),
-                        20
-                    );
-                } else {
-                    $resultsPagination = $results;
-                }
-                $userSelectionResultsPagination[$key] = $resultsPagination;
-            }
+            $session = $request->getSession();
+            $session->set('userSelection', $userSelection);
+            $session->set('userSelectionResults', $userSelectionResults);
 
-            if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                return $this->render(
-                    'pages/grid_euromillions/user_euromillions_results.html.twig', [
-                        'userSelection' => $userSelection,
-                        'userSelectionResults' => $userSelectionResults,
-                        'userSelectionResultsPagination' => $userSelectionResultsPagination,
-                    ]
-                );
-            }
-
-            return $this->render(
-                'pages/grid_euromillions/user_euromillions_results.html.twig', [
-                    'userSelection' => $userSelection,
-                    'userSelectionResults' => $userSelectionResults,
-                    'userSelectionResultsPagination' => $userSelectionResultsPagination,
-                ]
-            );
+            return $this->redirectToRoute('app_user_group_results_euromillions');
         }
 
         return $this->render('pages/grid_euromillions/index.html.twig', [
-            'controller_name' => 'GridEuromillionsController',
+            'form' => $form,
         ]);
     }
 
-    #[Route('/Euromillions/GroupResults', name: 'app_user_group_results_euromillions')]
-    public function show(): Response
+    #[Route('/Euromillions/Resultats', name: 'app_user_group_results_euromillions')]
+    public function results(Request $request): Response
     {
-        return $this->render('pages/grid_euromillions/user_group_results.html.twig');
+        $session = $request->getSession();
+
+        if (!$session->has('userSelection') || !$session->has('userSelectionResults')) {
+            return $this->redirectToRoute('app_grid_euromillions');
+        }
+
+        $userSelection = $session->get('userSelection');
+        $userSelectionResults = $session->get('userSelectionResults');
+
+        return $this->render('pages/grid_euromillions/user_euromillions_results.html.twig', [
+            'userSelection' => $userSelection,
+            'userSelectionResults' => $userSelectionResults,
+        ]);
+    }
+
+    #[Route('/Euromillions/Resultats/{groupId}', name: 'app_group_details_euromillions')]
+    public function groupDetails($groupId, Request $request, DrawEuromillionsRepository $repository): Response
+    {
+        $session = $request->getSession();
+        $userSelectionResults = $session->get('userSelectionResults');
+
+        if (!$userSelectionResults || !isset($userSelectionResults[$groupId])) {
+            throw $this->createNotFoundException('Group not found');
+        }
+
+        $groupResults = $userSelectionResults[$groupId];
+
+        $groupDetails = [];
+        foreach ($groupResults as $key => $result) {
+            $detailedDraw = $repository->find($result['drawId']);
+            if ($detailedDraw) {
+                $groupDetails[$key] = $detailedDraw;
+            }
+        }
+
+        $groupDetailsPaginate = $this->paginator->paginate(
+            $groupDetails,
+            $request->query->getInt('page', 1),
+            20
+        );
+
+        return $this->render('pages/grid_euromillions/user_group_results.html.twig', [
+            'groupResults' => $groupResults,
+            'groupDetails' => $groupDetailsPaginate,
+        ]);
     }
 }

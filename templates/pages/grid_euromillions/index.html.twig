@@ -5,7 +5,32 @@
 {% block body %}
     <main class="flex flex-wrap justify-center p-6">
         <section id="grid_euromillions_section">
-            {{ component('grid_euromillions') }}
+            {{ form_start(form, { 'attr': { 'class': 'flex flex-wrap justify-center rounded-lg w-fit font-bold select-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700' } }) }}
+                <div id="ballsEuromillionsGrid" class="grid grid-cols-10 gap-4 mr-5 mt-5 mb-2.5 justify-items-center">
+                    {% for chkBall in form.ballsSelectionEuromillions %}
+                        <div class="flex justify-center items-center w-14">
+                            {{ form_widget(chkBall, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
+                            {{ form_label(chkBall, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 leading-14 h-14 font-label_numbers m-auto text-2xl rounded-full shadow-3xl peer-checked:bg-bleu_europe peer-checked:text-white' } }) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="starsEuromillionsGrid" class="grid grid-cols-3 gap-4 ml-5 mt-5 mb-2.5 justify-items-center">
+                    {% for chkStar in form.starsSelection %}
+                        <div class="flex justify-center items-center w-14 font-label_numbers">
+                            {{ form_widget(chkStar, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
+                            {{ form_label(chkStar, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 pt-1 leading-14 h-14 m-auto text-2xl text-or_euromillions bg-white_star bg-no-repeat bg-contain peer-checked:bg-gold_star peer-checked:text-white' } }) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="flex flex-wrap justify-center w-2/3 mt-4 mb-4 rounded-2xl text-center">
+                    {{ form_widget(form.validate, { 'attr': { 'class': 'uppercase rounded-full py-2 px-4 tracking-widest text-or_euromillions text-2xl bg-bleu_europe border-or_euromillions border-2 border-solid hover:text-bleu_europe hover:bg-or_euromillions hover:border-bleu_europe active:border-or_euromillions' } }) }}
+                </div>
+                <div class="flex flex-wrap flex-col justify-center text-center mb-4">
+                    {{ form_errors(form.ballsSelectionEuromillions) }}
+                    {{ form_errors(form.starsSelection) }}
+                    {{ form_errors(form) }}
+                </div>
+            {{ form_end(form) }}
         </section>
     </main>
 {% endblock %}

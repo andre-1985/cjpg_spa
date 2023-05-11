@@ -1,7 +1,118 @@
-<turbo-stream action="replace" target="cards_group_results">
-    <template>
-        <div id="user_euromillions_group_results">
-            {{ dump(test) }}
-        </div>
-    </template>
-</turbo-stream>
+{% extends 'base.html.twig' %}
+
+{% block title %}CJPG - Groupe Euromillions{% endblock %}
+
+{% block body %}
+    <main class="flex flex-wrap justify-center p-6">
+        {% set ballLogo %}
+            <div class="mb-1 mx-auto rounded-full shadow-lg w-5 h-5 bg-bleu_europe"></div>
+        {% endset %}
+        {% set starLogo %}
+            <div class="mb-1 mx-auto w-5 h-5 bg-gold_star bg-no-repeat bg-contain"></div>
+        {% endset %}
+        {{ knp_pagination_render(groupDetails) }}
+        <table class="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+            <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.id') }}Tirage<br>n°
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.drawDay') }}Jour
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.drawDate') }}Date
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball1') }}{{ ballLogo }} N°1
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball2') }}{{ ballLogo }} N°2
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball3') }}{{ ballLogo }} N°3
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball4') }}{{ ballLogo }} N°4
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball5') }}{{ ballLogo }} N°5
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.star1') }}{{ starLogo }} N°1
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.star2') }}{{ starLogo }} N°2
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ascendingWinningBalls') }}Boules<br>gagnantes
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ascendingWinningStars') }}Etoiles<br>gagnantes
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InFrance') }}Gagnants<br>au rang 1<br>en France
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InEurope') }}Gagnants<br>au rang 1<br>en Europe
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.rankReport1') }}Montant<br>de la cagnotte<br>(si remporter)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in groupDetails %}
+                    <tr>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.id }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.drawDay }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.drawDate|date('d/m/Y') }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ball1 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ball2 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ball3 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ball4 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ball5 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.star1 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.star2 }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ascendingWinningBalls|trim('-') }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.ascendingWinningStars|trim('-') }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.numberOfWinnerInRank1InFrance }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.numberOfWinnerInRank1InEurope }}
+                        </td>
+                        <td class="border px-6 py-4 dark:border-neutral-500">
+                            {{ result.rankReport1 }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(groupDetails) }}
+    </main>
+{% endblock %}

@@ -29,7 +29,6 @@ class GridEuromillionsType extends AbstractType
             ->add('validate', SubmitType::class, [
                 'label' => 'valider',
             ])
-//            ->add('delete', ResetType::class)
         ;
     }
 
