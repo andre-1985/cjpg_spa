@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\DrawEuromillions;
+use App\Entity\DrawLoto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<DrawEuromillions>
+ * @extends ServiceEntityRepository<DrawLoto>
  *
- * @method DrawEuromillions|null find($id, $lockMode = null, $lockVersion = null)
- * @method DrawEuromillions|null findOneBy(array $criteria, array $orderBy = null)
- * @method DrawEuromillions[]    findAll()
- * @method DrawEuromillions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DrawLoto|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DrawLoto|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DrawLoto[]    findAll()
+ * @method DrawLoto[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DrawEuromillionsRepository extends ServiceEntityRepository
+class DrawLotoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, DrawEuromillions::class);
+        parent::__construct($registry, DrawLoto::class);
     }
 
-    public function save(DrawEuromillions $entity, bool $flush = false): void
+    public function save(DrawLoto $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class DrawEuromillionsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(DrawEuromillions $entity, bool $flush = false): void
+    public function remove(DrawLoto $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -44,8 +44,8 @@ class DrawEuromillionsRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('u')
             ->setParameters(
                 array(
-                    'userSelection1'=>$userSelection1,
-                    'userSelection2'=>$userSelection2,
+                    'userSelection1' => $userSelection1,
+                    'userSelection2' => $userSelection2,
                 )
             )
             ->where('u.ball1 IN (:userSelection1)')
@@ -53,10 +53,8 @@ class DrawEuromillionsRepository extends ServiceEntityRepository
             ->orWhere('u.ball3 IN (:userSelection1)')
             ->orWhere('u.ball4 IN (:userSelection1)')
             ->orWhere('u.ball5 IN (:userSelection1)')
-            ->orWhere('u.star1 IN (:userSelection2)')
-            ->orWhere('u.star2 IN (:userSelection2)')
-            ->getQuery()
-        ;
+            ->orWhere('u.luckyNumber IN (:userSelection2)')
+            ->getQuery();
 
         return $query->getResult();
     }
@@ -68,12 +66,11 @@ class DrawEuromillionsRepository extends ServiceEntityRepository
             ->setParameter('query', $query)
             ->orderBy('de.drawDate', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 //    /**
-//     * @return DrawEuromillions[] Returns an array of DrawEuromillions objects
+//     * @return DrawLoto[] Returns an array of DrawLoto objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -87,7 +84,7 @@ class DrawEuromillionsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?DrawEuromillions
+//    public function findOneBySomeField($value): ?DrawLoto
 //    {
 //        return $this->createQueryBuilder('d')
 //            ->andWhere('d.exampleField = :val')

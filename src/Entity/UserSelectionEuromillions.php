@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UserSelectionEuromillionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserSelectionEuromillionsRepository::class)]
 class UserSelectionEuromillions
@@ -66,11 +66,9 @@ class UserSelectionEuromillions
         return $this->ballsSelectionEuromillions;
     }
 
-    public function setBallsSelectionEuromillions(?array $ballsSelectionEuromillions): self
+    public function setBallsSelectionEuromillions(?array $ballsSelectionEuromillions): void
     {
         $this->ballsSelectionEuromillions = $ballsSelectionEuromillions;
-
-        return $this;
     }
 
     public function getStarsSelection(): ?array
@@ -78,10 +76,8 @@ class UserSelectionEuromillions
         return $this->starsSelection;
     }
 
-    public function setStarsSelection(?array $starsSelection): self
+    public function setStarsSelection(?array $starsSelection): void
     {
         $this->starsSelection = $starsSelection;
-
-        return $this;
     }
 }

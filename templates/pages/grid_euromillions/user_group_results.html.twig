@@ -4,15 +4,16 @@
 
 {% block body %}
     <main class="flex flex-wrap justify-center p-6">
-        {% set ballLogo %}
-            <div class="mb-1 mx-auto rounded-full shadow-lg w-5 h-5 bg-bleu_europe"></div>
-        {% endset %}
-        {% set starLogo %}
-            <div class="mb-1 mx-auto w-5 h-5 bg-gold_star bg-no-repeat bg-contain"></div>
-        {% endset %}
-        {{ knp_pagination_render(groupDetails) }}
-        <table class="min-w-full border text-center text-sm font-light dark:border-neutral-500">
-            <thead class="border-b font-medium dark:border-neutral-500">
+        <section id="grid_euromillions_results_section">
+            {% set ballLogo %}
+                <div class="mb-1 mx-auto rounded-full shadow-lg w-5 h-5 bg-bleu_europe"></div>
+            {% endset %}
+            {% set starLogo %}
+                <div class="mb-1 mx-auto w-5 h-5 bg-gold_star bg-no-repeat bg-contain"></div>
+            {% endset %}
+            {{ knp_pagination_render(groupDetails) }}
+            <table class="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+                <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>
                     <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
                         {{ knp_pagination_sortable(groupDetails, '', 'a.id') }}Tirage<br>n°
@@ -51,17 +52,20 @@
                         {{ knp_pagination_sortable(groupDetails, '', 'a.ascendingWinningStars') }}Etoiles<br>gagnantes
                     </th>
                     <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
-                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InFrance') }}Gagnants<br>au rang 1<br>en France
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InFrance') }}Gagnants<br>au
+                        rang 1<br>en France
                     </th>
                     <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
-                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InEurope') }}Gagnants<br>au rang 1<br>en Europe
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1InEurope') }}Gagnants<br>au
+                        rang 1<br>en Europe
                     </th>
                     <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
-                        {{ knp_pagination_sortable(groupDetails, '', 'a.rankReport1') }}Montant<br>de la cagnotte<br>(si remporter)
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.rankReport1') }}Montant<br>de la cagnotte<br>(si
+                        remporter)
                     </th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for result in groupDetails %}
                     <tr>
                         <td class="border px-6 py-4 dark:border-neutral-500">
@@ -111,8 +115,9 @@
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
-        {{ knp_pagination_render(groupDetails) }}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(groupDetails) }}
+        </section>
     </main>
 {% endblock %}

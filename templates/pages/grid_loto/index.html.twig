@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CJPG - Grille Loto{% endblock %}
+
+{% block body %}
+    <main class="flex flex-wrap justify-center p-6">
+        <section id="grid_loto_section">
+            {{ form_start(form, { 'attr': { 'class': 'flex flex-wrap justify-center rounded-lg w-fit font-bold select-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700' } }) }}
+            <div id="ballsLotoGrid" class="grid grid-cols-10 gap-4 mr-5 mt-5 mb-2.5 justify-items-center">
+                {% for chkBall in form.ballsSelectionLoto %}
+                    <div class="flex justify-center items-center w-14">
+                        {{ form_widget(chkBall, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
+                        {{ form_label(chkBall, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 leading-14 h-14 font-label_numbers m-auto text-2xl rounded-full shadow-3xl peer-checked:bg-bleu_france peer-checked:text-white' } }) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="luckyNumberGrid" class="grid grid-cols-3 gap-4 ml-5 mt-5 mb-2.5 justify-items-center">
+                {% for chkLuckyNumber in form.luckyNumberSelection %}
+                    <div class="flex justify-center items-center w-14 font-label_numbers">
+                        {{ form_widget(chkLuckyNumber, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
+                        {{ form_label(chkLuckyNumber, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 leading-14 h-14 font-label_numbers m-auto text-2xl rounded-full shadow-3xl peer-checked:bg-rouge_france peer-checked:text-white' } }) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="flex flex-wrap justify-center w-2/3 mt-4 mb-4 rounded-2xl text-center">
+                {{ form_widget(form.validate, { 'attr': { 'class': 'uppercase rounded-full py-2 px-4 tracking-widest text-white text-2xl bg-bleu_france border-rouge_france border-2 border-solid hover:text-bleu_france hover:bg-rouge_france hover:border-bleu_france active:border-rouge_france' } }) }}
+            </div>
+            {{ form_end(form) }}
+            <div class="flex flex-wrap flex-col justify-center text-center mb-4">
+                {{ form_errors(form.ballsSelectionLoto) }}
+                {{ form_errors(form.luckyNumberSelection) }}
+                {{ form_errors(form) }}
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -1,27 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CJPG - Grille Euromillions{% endblock %}
+{% block title %}CJPG - Grille Loto{% endblock %}
 
 {% block body %}
     <main class="flex flex-wrap justify-center p-6">
-        <section id="user_euromillions_results_section">
-            {{ component('card_user_selection_euromillions', {
+        <section id="user_loto_results_section">
+            {{ component('card_user_selection_loto', {
                 userSelection: userSelection,
             }) }}
             <div class="flex flex-wrap justify-center">
                 {% for key, groupResults in userSelectionResults %}
                     {% set countResults = groupResults|length %}
                     {% set ballLogo %}
-                        <div class="mb-1 mx-1 rounded-full shadow-lg w-5 h-5 bg-bleu_europe"></div>
+                        <div class="mb-1 mx-1 rounded-full shadow-lg w-5 h-5 bg-bleu_france"></div>
                     {% endset %}
-                    {% set starLogo %}
-                        <div class="mb-1 mx-1 w-5 h-5 bg-gold_star bg-no-repeat bg-contain"></div>
+                    {% set luckyNumberLogo %}
+                        <div class="mb-1 mx-1 rounded-full shadow-lg w-5 h-5 bg-rouge_france"></div>
                     {% endset %}
                     {% if key|length == 9 %}
                         {% set countBalls = key|slice(6, 1) %}
-                        {% set countStars = key|slice(8, 1) %}
                         {% set cardTitle %}
-                            {{ countResults }} tirages pour {{ countBalls }} {{ ballLogo }} + {{ countStars }} {{ starLogo }}
+                            {{ countResults }} tirages pour {{ countBalls }} {{ ballLogo }} + {{ luckyNumberLogo }}
                         {% endset %}
                     {% elseif key|length == 7 %}
                         {% set countBalls = key|slice(6, 1) %}
@@ -29,23 +28,22 @@
                             {{ countResults }} tirages pour {{ countBalls }} {{ ballLogo }}
                         {% endset %}
                     {% else %}
-                        {% set countStars = key|slice(7, 1) %}
                         {% set cardTitle %}
-                            {{ countResults }} tirages pour {{ countStars }} {{ starLogo }}
+                            {{ countResults }} tirages pour {{ luckyNumberLogo }}
                         {% endset %}
                     {% endif %}
                     <div class="block rounded-lg bg-white p-6 m-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
                         <h5 class="flex flex-wrap justify-center items-center mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
                             {{ cardTitle }}
                         </h5>
-                        {{ component('stats_group_results_user_selection_euromillions', {
+                        {{ component('stats_group_results_user_selection_loto', {
                             userSelection: userSelection,
                             groupResults: groupResults,
                         }) }}
                         <div class="flex justify-center">
                             <a
-                                    href="{{ path('app_group_details_euromillions', {'groupId': key}) }}"
-                                    class="w-full rounded-md text-center text-or_euromillions bg-bleu_europe transition duration-150 ease-in-out hover:text-bleu_europe hover:bg-or_euromillions focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+                                    href="{{ path('app_group_details_loto', {'groupId': key}) }}"
+                                    class="w-full rounded-md text-center text-rouge_france bg-bleu_france transition duration-150 ease-in-out hover:text-bleu_france hover:bg-rouge_france focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
                             >
                                 Afficher les résultats
                             </a>

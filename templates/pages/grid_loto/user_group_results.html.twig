@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CJPG - Groupe Loto{% endblock %}
+
+{% block body %}
+    <main class="flex flex-wrap justify-center p-6">
+        <section id="grid_loto_results_section">
+            {% set ballLogo %}
+                <div class="mb-1 mx-auto rounded-full shadow-lg w-5 h-5 bg-bleu_france"></div>
+            {% endset %}
+            {% set luckyNumberLogo %}
+                <div class="mb-1 mx-auto rounded-full shadow-lg w-5 h-5 bg-rouge_france"></div>
+            {% endset %}
+            {{ knp_pagination_render(groupDetails) }}
+            <table class="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+                <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.id') }}Tirage<br>n°
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.drawDay') }}Jour
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.drawDate') }}Date
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball1') }}{{ ballLogo }} N°1
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball2') }}{{ ballLogo }} N°2
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball3') }}{{ ballLogo }} N°3
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball4') }}{{ ballLogo }} N°4
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.ball5') }}{{ ballLogo }} N°5
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.luckyNumber') }}{{ luckyNumberLogo }}
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.$ascendingWinningCombination') }}Combinaison<br>gagnante
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.numberOfWinnerInRank1') }}Gagnants<br>au rang 1
+                    </th>
+                    <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                        {{ knp_pagination_sortable(groupDetails, '', 'a.rankReport1') }}Montant<br>de la cagnotte<br>(si
+                        remporter)
+                    </th>
+                </tr>
+                </thead>
+            </table>
+            {{ knp_pagination_render(groupDetails) }}
+        </section>
+    </main>
+{% endblock %}
