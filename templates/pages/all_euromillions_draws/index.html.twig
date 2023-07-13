@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AllEuromillionsDrawsController!{% endblock %}
+{% block title %}Tous les tirages Euromillions{% endblock %}
 
 {% block body %}
-    <main class="p-6">
+    <main class="flex flex-wrap justify-center p-6">
+        {#        {{ dump(allDrawsEuromillions) }} #}
+        {% for drawEuromillions in allDrawsEuromillions %}
+
+        {% endfor %}
     </main>
 {% endblock %}

@@ -5,15 +5,15 @@
 {% block body %}
     <main class="flex flex-wrap justify-center p-6">
         <section id="grid_euromillions_section">
-            {{ form_start(form, { 'attr': { 'class': 'flex flex-wrap justify-center rounded-lg w-fit font-bold select-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700' } }) }}
-                <div id="ballsEuromillionsGrid" class="grid grid-cols-10 gap-4 mr-5 mt-5 mb-2.5 justify-items-center">
-                    {% for chkBall in form.ballsSelectionEuromillions %}
-                        <div class="flex justify-center items-center w-14">
-                            {{ form_widget(chkBall, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
-                            {{ form_label(chkBall, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 leading-14 h-14 font-label_numbers m-auto text-2xl rounded-full shadow-3xl peer-checked:bg-bleu_europe peer-checked:text-white' } }) }}
-                        </div>
-                    {% endfor %}
-                </div>
+            {{ form_start(form, { 'attr': { 'class': 'flex flex-wrap justify-center rounded-lg w-fit font-bold select-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.25),0_10px_20px_-2px_rgba(0,0,0,0.25)] dark:bg-neutral-700' } }) }}
+            <div id="ballsEuromillionsGrid" class="grid grid-cols-10 gap-4 mr-5 mt-5 mb-2.5 justify-items-center">
+                {% for chkBall in form.ballsSelectionEuromillions %}
+                    <div class="flex justify-center items-center w-14">
+                        {{ form_widget(chkBall, { 'attr': { 'class': 'peer sr-only absolute' } }) }}
+                        {{ form_label(chkBall, null, { 'label_attr': { 'class': 'flex justify-center items-center w-14 leading-14 h-14 font-label_numbers m-auto text-2xl rounded-full shadow-3xl peer-checked:bg-bleu_europe peer-checked:text-white' } }) }}
+                    </div>
+                {% endfor %}
+            </div>
             <div id="starsEuromillionsGrid" class="grid grid-cols-3 gap-4 ml-5 mt-5 mb-2.5 justify-items-center">
                 {% for chkStar in form.starsSelection %}
                     <div class="flex justify-center items-center w-14 font-label_numbers">

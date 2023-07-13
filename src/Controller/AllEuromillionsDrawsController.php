@@ -2,17 +2,28 @@
 
 namespace App\Controller;
 
+use App\Repository\DrawEuromillionsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AllEuromillionsDrawsController extends AbstractController
 {
-    #[Route('/Euromillions/Tirages', name: 'app_all_euromillions_draws')]
-    public function index(): Response
+    private PaginatorInterface $paginator;
+
+    public function __construct(PaginatorInterface $paginator)
     {
+        $this->paginator = $paginator;
+    }
+
+    #[Route('/Euromillions/Tirages', name: 'app_all_euromillions_draws')]
+    public function index(DrawEuromillionsRepository $repository): Response
+    {
+        $allDrawsEuromillions = $repository->findAll();
+
         return $this->render('pages/all_euromillions_draws/index.html.twig', [
-            'controller_name' => 'AllEuromillionsDrawsController',
+            'allDrawsEuromillions' => $allDrawsEuromillions,
         ]);
     }
 }
