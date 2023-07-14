@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tirage Euromillions n°{% endblock %}
+
+{% block body %}
+    <main class="flex flex-wrap justify-center p-6">
+        {{ dump(detailedDraw) }}
+    </main>
+{% endblock %}
