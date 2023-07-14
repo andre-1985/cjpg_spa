@@ -26,4 +26,14 @@ class AllEuromillionsDrawsController extends AbstractController
             'allDrawsEuromillions' => $allDrawsEuromillions,
         ]);
     }
+
+    #[Route('/Euromillions/Tirage{drawId}', name: 'app_draw_euromillions')]
+    public function showDraw($drawId, DrawEuromillionsRepository $repository)
+    {
+        $detailedDraw = $repository->find($drawId);
+
+        return $this->render('pages/all_euromillions_draws/draw_euromillions.html.twig', [
+            'detailedDraw' => $detailedDraw,
+        ]);
+    }
 }

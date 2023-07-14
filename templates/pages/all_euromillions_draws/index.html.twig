@@ -4,9 +4,19 @@
 
 {% block body %}
     <main class="flex flex-wrap justify-center p-6">
-        {#        {{ dump(allDrawsEuromillions) }} #}
         {% for drawEuromillions in allDrawsEuromillions %}
-
+            <section>
+                <a href="{{ path('app_draw_euromillions', {'drawId': drawEuromillions.id}) }}">
+                    <div class="rounded-lg p-4 w-fit font-bold shadow-[0_2px_15px_-3px_rgba(0,0,0,0.25),0_10px_20px_-2px_rgba(0,0,0,0.25)]">
+                        <h2>Tirage numéro {{ drawEuromillions.id }}
+                            du {{ drawEuromillions.drawDate|date('d/m/Y') }}</h2>
+                        <div class="flex flex-wrap justify-center">
+                            <p>{{ drawEuromillions.ascendingWinningBalls|trim('-') }}
+                                + {{ drawEuromillions.ascendingWinningStars|trim('-') }}</p>
+                        </div>
+                    </div>
+                </a>
+            </section>
         {% endfor %}
     </main>
 {% endblock %}

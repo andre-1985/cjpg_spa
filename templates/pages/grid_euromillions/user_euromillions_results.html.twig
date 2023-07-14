@@ -20,16 +20,25 @@
                     {% if key|length == 9 %}
                         {% set countBalls = key|slice(6, 1) %}
                         {% set countStars = key|slice(8, 1) %}
+                        {% set groupName %}
+                            {{ countBalls }}_boule(s)_&_{{ countStars }}_étoile(s)
+                        {% endset %}
                         {% set cardTitle %}
                             {{ countResults }} tirages pour {{ countBalls }} {{ ballLogo }} + {{ countStars }} {{ starLogo }}
                         {% endset %}
                     {% elseif key|length == 7 %}
                         {% set countBalls = key|slice(6, 1) %}
+                        {% set groupName %}
+                            {{ countBalls }}_boule(s)
+                        {% endset %}
                         {% set cardTitle %}
                             {{ countResults }} tirages pour {{ countBalls }} {{ ballLogo }}
                         {% endset %}
                     {% else %}
                         {% set countStars = key|slice(7, 1) %}
+                        {% set groupName %}
+                            {{ countStars }}_étoile(s)
+                        {% endset %}
                         {% set cardTitle %}
                             {{ countResults }} tirages pour {{ countStars }} {{ starLogo }}
                         {% endset %}
